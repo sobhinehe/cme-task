@@ -1,21 +1,25 @@
-import React from"react";
+import React, { Component } from"react";
 import {Row, Col, Card} from 'react-bootstrap'
 import {Spinner, Alert} from 'react-bootstrap'
 
-export default class FetchRandomUser extends React.Component {
+export default class FetchRandomUser extends Component {
     
     state = {
         loading: true,
         people: [],
+        error: false,
     }
 
     async componentDidMount(){
             const url = "https://api.randomuser.me/?results=5";
             const response = await fetch(url);
             const data = await response.json();
-            this.setState({people: data.results, loading: false})
+           
+                
+        this.setState({people: data.results, loading: false, error: false})
             
-
+            
+            
    }
 
    render() {
@@ -26,7 +30,7 @@ export default class FetchRandomUser extends React.Component {
             </Spinner>
         </div>
     }
-    if (!this.state.people) {
+    if (this.state.error) {
         return <div>
             <Alert variant="danger">
                 <Alert.Heading>Oh snap! We have no users!</Alert.Heading>
